@@ -1,5 +1,6 @@
 #include "shaderClass.h"
 
+// reads a text file and returns a string with its contents
 std::string get_file_contents(const char* filename)
 {
 	std::ifstream in(filename, std::ios::binary);
@@ -30,32 +31,12 @@ Shader::Shader(const char* vertexFile, const char* fragmentFile)
 	glShaderSource(vertexShader, 1, &vertexSource, NULL);
 	// compile shader into machine code
 	glCompileShader(vertexShader);
-
-	// check if vertexShader has successfully compiled
-	int successVertex;
-	char infoLogVertex[512];
-	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &successVertex);
-
-	if (!successVertex)
-	{
-		glGetShaderInfoLog(vertexShader, 512, NULL, infoLogVertex);
-		std::cout << "ERROR" << infoLogVertex << std::endl;
-	}
+	compileErrors(vertexShader, "VERTEX");
 
 	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(fragmentShader, 1, &fragmentSource, NULL);
 	glCompileShader(fragmentShader);
-
-	// check if fragmentShader has successfully compiled
-	int successFragment;
-	char infoLogFragment[512];
-	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &successFragment);
-
-	if (!successFragment)
-	{
-		glGetShaderInfoLog(fragmentShader, 512, NULL, infoLogFragment);
-		std::cout << "ERROR" << infoLogFragment << std::endl;
-	}
+	compileErrors(fragmentShader, "FRAGMENT");
 
 	// create shader program object and get reference
 	ID = glCreateProgram();
@@ -77,4 +58,29 @@ void Shader::Activate()
 void Shader::Delete()
 {
 	glDeleteProgram(ID);
+}
+
+void Shader::compileErrors(unsigned int shader, const char* type)
+{
+	GLint hasCompiled;
+	char infoLog[1024];
+
+	if (type != "PROGRAM")
+	{
+		glGetShaderiv(shader, GL_COMPILE_STATUS, &hasCompiled);
+		if (hasCompiled == GL_FALSE)
+		{
+			glGetShaderInfoLog(shader, 1024, NULL, infoLog);
+			std::cout << "SHADER_COMPILATION_ERROR for:" << type << "\n" << std::endl;
+		}
+	}
+	else
+	{
+		glGetProgramiv(shader, GL_COMPILE_STATUS, &hasCompiled);
+		if (hasCompiled == GL_FALSE)
+		{
+			glGetProgramInfoLog(shader, 1024, NULL, infoLog);
+			std::cout << "SHADER_LINKING_ERROR for:" << type << "\n" << std::endl;
+		}
+	}
 }

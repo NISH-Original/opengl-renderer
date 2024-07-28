@@ -20,9 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\glad.c" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="EBO.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="shaderClass.cpp" />
+    <ClCompile Include="stb.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="VAO.cpp" />
     <ClCompile Include="VBO.cpp" />
   </ItemGroup>
@@ -31,10 +34,19 @@
     <None Include="default.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Include\stb\stb_image.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="EBO.h" />
     <ClInclude Include="shaderClass.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="VAO.h" />
     <ClInclude Include="VBO.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="obama_pic.png" />
+    <Image Include="obama_pyr.png" />
+    <Image Include="obama_pyramid.png" />
+    <Image Include="pop_cat.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
