@@ -12,9 +12,12 @@ void Camera::UpdateMatrix(float FOVdeg, float nearPlane, float farPlane)
 	glm::mat4 view = glm::mat4(1.0f);
 	glm::mat4 projection = glm::mat4(1.0f);
 	
+	// makes camera look in the right direction from the right position
 	view = glm::lookAt(Position, Position + Orientation, Up);
+	// adds perspective to the scene
 	projection = glm::perspective(glm::radians(FOVdeg), (float)width / height, nearPlane, farPlane);
 
+	// sets new camera matrix
 	cameraMatrix = projection * view;
 }
 
@@ -45,12 +48,12 @@ void Camera::Inputs(GLFWwindow* window, double deltaTime)
 		Position += speed * glm::normalize(glm::cross(Orientation, Up)) * (float)deltaTime;
 	}
 
-	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
 	{
 		Position += speed * Up * (float)deltaTime;
 	}
 
-	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
 	{
 		Position += speed * -Up * (float)deltaTime;
 	}

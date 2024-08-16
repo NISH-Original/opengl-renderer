@@ -29,7 +29,9 @@ public:
 
 	Camera(int width, int height, glm::vec3 position);
 
+	// updates camera matrix to vertex shader
 	void UpdateMatrix(float FOVdeg, float nearPlane, float farPlane);
+	// exports camera matrix to a shader
 	void Matrix(Shader& shader, const char* uniform);
 	void Inputs(GLFWwindow* window, double deltaTime);
 };
